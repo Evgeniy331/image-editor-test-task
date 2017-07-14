@@ -1,0 +1,23 @@
+button {
+	margin: 2px;
+    padding: 3px;
+}
+
+ul.options {
+    font-size: 15px;
+    padding: 0 0 20px 20px;
+    list-style: none;
+    width: 345px;
+    margin: 0 auto;
+}
+
+span {
+	display: inline-block;
+	width: 120px;
+}
+
+#canvas {
+	border: 1px solid black;
+	display: block;
+	margin: 0 auto;
+}

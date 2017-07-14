@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Image Editor</title>
+	<link rel="stylesheet" type="text/css" href="./dist/main.css">
+</head>
+<body>
+	<ul class="options">
+		<li>
+			<span>Clear the canvas:</span> 
+			<button id="clear-btn">Clear</button>
+		</li>
+		<li>
+			<span>Choose a color:</span> 
+			<button id="purple-color">Purple</button>
+			<button id="green-color">Green</button>
+			<button id="yellow-color">Yellow</button>
+			<button id="brown-color">Brown</button>
+		</li>
+		<li>
+			<span>Choose a size:</span>  
+			<button id="small-size">Small</button>
+			<button id="normal-size">Normal</button>
+			<button id="large-size">Large</button>
+			<button id="huge-size">Huge</button>
+		</li>
+		<li>
+			<span>Undo/Redo:</span>
+			<button id="undo">&#8592;</button>
+			<button id="redo">&#8594;</button>
+		</li>
+		<li>
+			<span>Image Size:</span>
+			<button id="increase-image-size">&#43;</button>
+			<button id="decrease-image-size">&#8722;</button>
+		</li>
+		<li>
+			<span>Filters:</span>
+			<button id="invert-filter">Invert</button>
+			<button id="grayscale-filter">Grayscale</button>
+		</li>
+	</ul>
+	<canvas id="canvas" width="490" height="220"></canvas>
+	<script type="text/javascript" src="./dist/bundle.js"></script>
+</body>
+</html>

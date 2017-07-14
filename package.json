@@ -1,0 +1,33 @@
+{
+  "name": "image-editor-test-task",
+  "version": "1.0.0",
+  "description": "test task Junior JS Developer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack-dev-server",
+    "build:prod": "webpack -p"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/Evgeniy331/"
+  },
+  "keywords": [
+    "canvas",
+    "HTML",
+    "CSS",
+    "JS"
+  ],
+  "author": "Eugene Dubrovsky",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-loader": "^7.1.1",
+    "webpack": "^3.2.0",
+    "babel-core": "^6.25.0",
+    "babel-preset-es2015": "^6.24.1",
+    "css-loader": "^0.28.4",
+    "style-loader": "^0.18.2",
+    "webpack-dev-server": "^2.5.1",
+    "extract-text-webpack-plugin": "^3.0.0"
+  }
+}
