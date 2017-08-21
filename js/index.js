@@ -6,12 +6,17 @@ import "../css/style.css"
         context = canvas.getContext("2d"),
         paint;
 
-    const {offsetLeft, offsetTop} = canvas;
+    const { offsetLeft, offsetTop } = canvas;
 
     const PURPLE_COLOR = "#CB3594";
     const GREEN_COLOR =  "#659B41";
     const YELLOW_COLOR = "#FFCF33";
     const BROWN_COLOR = "#986928";
+
+    const SMALL_LINE_WIDTH = 2;
+    const NORMAL_LINE_WIDTH = 5;
+    const LARGE_LINE_WIDTH = 10;
+    const HUGE_LINE_WIDTH = 20;
 
     let clearBtn = document.getElementById("clear-btn"), 
         purpleColorBtn = document.getElementById("purple-color"), 
@@ -30,12 +35,14 @@ import "../css/style.css"
         grayscaleBtn = document.getElementById("grayscale-filter");
 
     let state = JSON.parse(localStorage.getItem("current-state"));
-
+    
     if (state) {
-        var {steps, step, curStep, imageWidth, imageHeight} = state;
+
+        var { steps, step, curStep, imageWidth, imageHeight } = state;
         canvas.width = imageWidth;
         canvas.height = imageHeight;
         redraw();
+        
     }
     else {
 
@@ -54,22 +61,22 @@ import "../css/style.css"
         var curStep = 0, imageWidth = canvas.offsetWidth, imageHeight = canvas.offsetHeight;
     }
 
-    canvas.onmousedown = function(e){
+    canvas.onmousedown = e => {
 
         paint = true;
-        addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+        addClick(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
         redraw();
 
-    };
+    }
 
-    canvas.onmousemove = function(e){
+    canvas.onmousemove = e => {
       
         if(paint) {
-            addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+            addClick(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop, true);
             redraw();
         }
 
-    };
+    }
 
     function drawStep(step) {
 
@@ -82,20 +89,20 @@ import "../css/style.css"
             else
                 context.moveTo(step.clickX[i]-1, step.clickY[i]);
 
-            let radius = 5;
+            let currentLineWidth = NORMAL_LINE_WIDTH;
             
             switch (step.clickSize[i]) {
                 case "small":
-                    radius = 2;
+                    currentLineWidth = SMALL_LINE_WIDTH;
                     break;
                 case "normal":
-                    radius = 5;
+                    currentLineWidth = NORMAL_LINE_WIDTH;
                     break;
                 case "large":
-                    radius = 10;
+                    currentLineWidth = LARGE_LINE_WIDTH;
                     break;
                 case "huge":
-                    radius = 20;
+                    currentLineWidth = HUGE_LINE_WIDTH;
                     break;
                 default:
                     break;
@@ -104,7 +111,7 @@ import "../css/style.css"
             context.lineTo(step.clickX[i], step.clickY[i]);
             context.closePath();
             context.strokeStyle = step.clickColor[i];
-            context.lineWidth = radius;
+            context.lineWidth = currentLineWidth;
             context.stroke();
         }
     }
@@ -123,14 +130,9 @@ import "../css/style.css"
             curStep, imageWidth, imageHeight}));
     }
 
-    //helper function
-    function copyObject(copiedObject) {
-        return JSON.parse(JSON.stringify(copiedObject));
-    }
-
-    canvas.onmouseup = function(){
+    canvas.onmouseup = () => {
         paint = false;
-        steps[curStep++] = copyObject(step);
+        steps[curStep++] =  Object.assign({}, step); 
         clearStep();
     };
 
@@ -179,7 +181,7 @@ import "../css/style.css"
         context.putImageData(imageData, 0, 0);
     };
 
-    clearBtn.onclick = function() {
+    clearBtn.onclick = () => {
 
         clear();
         clearStep();
@@ -189,46 +191,24 @@ import "../css/style.css"
         steps = [];
     }
 
-    purpleColorBtn.onclick = function() {
-        step.color = PURPLE_COLOR;
-    }
+    purpleColorBtn.onclick = () => step.color = PURPLE_COLOR;
+    greenColorBtn.onclick = () => step.color = GREEN_COLOR;
+    yellowColorBtn.onclick = () => step.color = YELLOW_COLOR;
+    brownColorBtn.onclick = () => step.color = BROWN_COLOR;
+   
+    smallSizeBtn.onclick = () => step.curSize = "small";
+    normalSizeBtn.onclick = () => step.curSize = "normal";
+    largeSizeBtn.onclick = () => step.curSize = "large";
+    hugeSizeBtn.onclick = () => step.curSize = "huge";
 
-    greenColorBtn.onclick = function() {
-        step.color = GREEN_COLOR;
-    }
-
-    yellowColorBtn.onclick = function() {
-        step.color = YELLOW_COLOR;
-    }
-
-    brownColorBtn.onclick = function() {
-        step.color = BROWN_COLOR;
-    }
-
-    smallSizeBtn.onclick = function() {
-        step.curSize = "small";
-    }
-
-    normalSizeBtn.onclick = function() {
-        step.curSize = "normal";
-    }
-
-    largeSizeBtn.onclick = function() {
-        step.curSize = "large";
-    }
-
-    hugeSizeBtn.onclick = function() {
-        step.curSize = "huge";
-    }
-
-    undoBtn.onclick = function() {
+    undoBtn.onclick = () => {
         if (curStep > 0) {
             --curStep;
             redraw();
         }
     }
 
-    redoBtn.onclick = function() {
+    redoBtn.onclick = () => {
         if (curStep < steps.length) {
             ++curStep;
             redraw();
@@ -239,7 +219,7 @@ import "../css/style.css"
         context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     }
 
-    increaseImageSizeBtn.onclick = function() {
+    increaseImageSizeBtn.onclick = () => {
         
         imageWidth = imageWidth + parseInt(imageWidth * 0.1);
         imageHeight = imageHeight + parseInt(imageHeight * 0.1);
@@ -250,7 +230,7 @@ import "../css/style.css"
         redraw();
     }
 
-    decreaseImageSizeBtn.onclick = function() {
+    decreaseImageSizeBtn.onclick = () => {
 
         imageWidth = imageWidth - parseInt(imageWidth * 0.1);
         imageHeight = imageHeight - parseInt(imageHeight * 0.1);
@@ -261,12 +241,7 @@ import "../css/style.css"
         redraw();
     }
 
-    invertBtn.onclick = function() {
-        invertFilter();
-    };
-
-    grayscaleBtn.onclick = function() {
-        grayscaleFilter();
-    };
+    invertBtn.onclick = () => invertFilter();
+    grayscaleBtn.onclick = () => grayscaleFilter();
 
 }());
